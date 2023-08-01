@@ -1,9 +1,5 @@
 name: "MQTT SberGate"
-<<<<<<< HEAD
 version: "1.0.3.13"
-=======
-version: "1.0.3.13"
->>>>>>> 0e54d3e2544fd1cd4872e4ebc6e235c41463d3c9
 description: "MQTT SberGate SberDevice IoT Agent for Home Assistant"
 url: https://github.com/LeshiyGS/MQTT-SberGate
 webui: http://[HOST]:[PORT:9123]
