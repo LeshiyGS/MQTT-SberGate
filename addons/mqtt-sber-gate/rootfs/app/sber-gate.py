@@ -157,7 +157,8 @@ class CDevicesDB(object):
    def do_mqtt_json_devices_list(self):
       model_dict = {
          'relay': {'id': 'model_relay', 'manufacturer': 'Janch', 'model': 'Relay', 'category': 'relay', 'features': ['online','on_off']},
-         'ipc': {'id': 'model_ipc', 'manufacturer': 'Janch', 'model': 'IPC', 'category': 'ipc', 'features': ['online','on_off']}
+         'ipc': {'id': 'model_ipc', 'manufacturer': 'Janch', 'model': 'IPC', 'category': 'ipc', 'features': ['online','on_off']},
+         'light': {'id': 'model_light', 'manufacturer': 'LeshiyGS', 'model': 'Light', 'category': 'light', 'features': ['online','on_off']}
       }
       Dev={}
       Dev['devices']=[]
