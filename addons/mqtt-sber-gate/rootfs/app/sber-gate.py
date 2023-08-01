@@ -335,7 +335,7 @@ if not os.path.exists(fDevicesDB):
 DevicesDB=CDevicesDB(fDevicesDB)
 AgentStatus={"online": True, "error": "",  "credentials": {'username':Options['sber-mqtt_login'],"password": "***",'broker': Options['sber-mqtt_broker']}}
 
-#log(Options['ha-api_url'])
+log(Options['ha-api_url'])
 #log(Options['ha-api_token'])
 
 
