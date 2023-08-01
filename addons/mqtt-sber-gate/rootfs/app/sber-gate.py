@@ -271,7 +271,7 @@ def on_message_cmd(mqttc, obj, msg):
    data=json.loads(msg.payload)
 #Command: {'devices': {'Relay_03': {'states': [{'key': 'on_off', 'value': {'type': 'BOOL'}}]}}}
    log("Command: " + str(data))
-   log('DevicesDB: '+str(DevicesDB.DB))
+   #log('DevicesDB: '+str(DevicesDB.DB))
    for id,v in data['devices'].items():
       for k in v['states']:
          if k['key'] == 'on_off':
@@ -290,7 +290,7 @@ def on_message_cmd(mqttc, obj, msg):
          if k['value']['type'] == 'INTEGER':
             DevicesDB.change_state(id,k['key'],k['value'].get('integer_value',0))
    send_status(mqttc,DevicesDB.do_mqtt_json_states_list([]))
-   log(DevicesDB.mqtt_json_states_list)
+  # log(DevicesDB.mqtt_json_states_list)
 
 def on_message_stat(mqttc, obj, msg):
    data=json.loads(msg.payload).get('devices',[])
@@ -323,12 +323,6 @@ log('Start MQTT SberDevice IoT Agent for Home Assistant')
 log("Запущено в системе: "+ os.name)
 log("Текущая директория: "+ os.getcwd())
 log("Кодировка: "+ sys.getdefaultencoding())
-#log(": "+ sys.getfilesystemencoding())
-#log(": "+ sys.getfilesystemencodeerrors())
-#log(": "+ str(sys.maxunicode))
-
-#sys.setdefaultencoding('utf8')
-#print(sys.stdout.encoding)
 
 fOptions='options.json'
 fDevicesDB='devices.json'
