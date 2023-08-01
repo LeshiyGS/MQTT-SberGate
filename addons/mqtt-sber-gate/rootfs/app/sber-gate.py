@@ -172,7 +172,7 @@ class CDevicesDB(object):
             d['model_id']=''
             Dev['devices'].append(d)
       self.mqtt_json_devices_list=json.dumps(Dev)
-#      log('New Devices List for MQTT: '+self.mqtt_json_devices_list)
+      log('New Devices List for MQTT: '+self.mqtt_json_devices_list)
       return self.mqtt_json_devices_list
 
    def do_mqtt_json_states_list(self,dl):
