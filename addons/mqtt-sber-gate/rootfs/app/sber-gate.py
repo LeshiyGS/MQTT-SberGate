@@ -349,13 +349,18 @@ def upd_scr(id,s):
    attr=s['attributes'].get('friendly_name','')
    log('script: ' + s['entity_id'] + ' '+attr)
    DevicesDB.update(s['entity_id'],{'entity_ha': True,'entity_type': 'scr','friendly_name':attr,'category': 'relay'})
+def upd_ligt(id,s):
+   attr=s['attributes'].get('friendly_name','')
+   log('light: ' + s['entity_id'] + ' '+attr)
+   DevicesDB.update(s['entity_id'],{'entity_ha': True,'entity_type': 'scr','friendly_name':attr,'category': 'light'})
 def upd_default(id,s):
    log('Неиспользуемый тип: ' + s['entity_id'])
 for s in res:
    a,b=s['entity_id'].split('.',1)
    dict={
       'switch': upd_sw,
-      'script': upd_scr
+      'script': upd_scr,
+      'light': upd_ligt
    }
    dict.get(a, upd_default)(s['entity_id'],s)
 
