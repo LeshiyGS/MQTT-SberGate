@@ -407,7 +407,7 @@ hds = {'content-type': 'application/json'}
 if not os.path.exists('models.json'):
    log('Файл моделей отсутствует. Получаем...')
    SD_Models = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/models', headers=hds,auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password'])).json()
-   log(SD_Models)
+   log('json'+SD_Models)
    json_write('models.json',SD_Models)
 
 if not os.path.exists('categories.json'):
