@@ -415,8 +415,9 @@ if not os.path.exists('models.json'):
 
 if not os.path.exists('categories.json'):
    log('Файл категорий отсутствует. Получаем...')
-   SD_Categories = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/categories', headers=hds,auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password'])).json()
-   json_write('categories.json',SD_Categories)
+   SD_Categories = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/categories', headers=hds,auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password']))
+    with open('categories.json', 'w') as f:
+    json.dump(SD_Categories.json(), f)
 
 #************** WebServer*********************************
 def send_data(self,data,ct):
