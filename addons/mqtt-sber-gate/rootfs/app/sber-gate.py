@@ -13,9 +13,6 @@ import requests
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-#import locale
-#locale.getpreferredencoding()
-
 #*******************************
 def json_read(f):
    d=open(f,'r', encoding='utf-8').read()
@@ -40,6 +37,9 @@ def options_change(k,v):
       log('В настройках изменился параметр: '+k+' с '+str(t)+' на '+str(v)+' (обновляю и сохраняю).')
       json_write(fOptions,Options)
 
+
+#Отправка команды в НА в зависимости от модели устройства
+#для реле
 def ha_switch(id,OnOff):
    log('Отправляем команду в HA для '+id+' ON: '+str(OnOff))
    if OnOff:
@@ -48,7 +48,7 @@ def ha_switch(id,OnOff):
       url=Options['ha-api_url']+'/api/services/switch/turn_off'
    hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
    response=requests.post(url, json={"entity_id": id}, headers=hds)
-
+#для лампы
 def ha_light(id,OnOff):
    log('Отправляем команду в HA для '+id+' ON: '+str(OnOff))
    if OnOff:
@@ -57,12 +57,7 @@ def ha_light(id,OnOff):
       url=Options['ha-api_url']+'/api/services/light/turn_off'
    hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
    response=requests.post(url, json={"entity_id": id}, headers=hds)
-
-#   if response.status_code == 200:
-#      log(response.text)
-#   else:
-#      log(response.status_code)
-
+#для скрипта
 def ha_script(id,OnOff):
    log('Отправляем команду в HA для '+id+' ON: '+str(OnOff))
    if OnOff:
