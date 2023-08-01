@@ -406,7 +406,7 @@ log('SberDevice http_api_endpoint: '+Options['sber-http_api_endpoint'])
 hds = {'content-type': 'application/json'}
 if not os.path.exists('models.json'):
    log('Файл моделей отсутствует. Получаем...')
-   SD_Models = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/models', headers=hds,auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password']))
+   SD_Models = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/models', headers=hds, auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password']))
    with open('models.json', 'w') as f:
     json.dump(SD_Models.json(), f)
    #SD_Models = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/models', headers=hds,auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password'])).json()
