@@ -9,7 +9,9 @@ import random
 import json
 import paho.mqtt.client as mqtt
 import ssl
-import requests
+#import requests
+import urllib.request
+
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -303,6 +305,11 @@ def log(s):
    print(dt+': '+str(s))
 
 #********** Start **********************************
+
+ssl._create_default_https_context = ssl._create_unverified_context
+r = urllib.request.Request("https://x-waters.com/events/murom/participants-murom/")
+with urllib.request.urlopen(r) as res:
+    log(res.status)
 #https://developers.sber.ru/docs/ru/smarthome/c2c/value
 sber_types={'FLOAT':'float_value','INTEGER':'integer_value','STRING':'string_value','BOOL':'bool_value','ENUM':'enum_value','JSON':'','COLOUR':'colour_value'}
 #
