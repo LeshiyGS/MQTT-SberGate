@@ -48,6 +48,16 @@ def ha_switch(id,OnOff):
       url=Options['ha-api_url']+'/api/services/switch/turn_off'
    hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
    response=requests.post(url, json={"entity_id": id}, headers=hds)
+
+def ha_light(id,OnOff):
+   log('Отправляем команду в HA для '+id+' ON: '+str(OnOff))
+   if OnOff:
+      url=Options['ha-api_url']+'/api/services/light/turn_on'
+   else:
+      url=Options['ha-api_url']+'/api/services/light/turn_off'
+   hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
+   response=requests.post(url, json={"entity_id": id}, headers=hds)
+
 #   if response.status_code == 200:
 #      log(response.text)
 #   else:
@@ -274,6 +284,11 @@ def on_message_cmd(mqttc, obj, msg):
                val=k['value'].get('bool_value',False)
                log('on_off set to '+str(val))
                DevicesDB.change_state(id,k['key'],val)
+               ha_light(id,val)
+               if DevicesDB.DB[id]['entity_type'] == 'light':
+               val=k['value'].get('bool_value',False)
+               log('on_off set to '+str(val))
+               DevicesDB.change_state(id,k['key'],val)
                ha_switch(id,val)
             if DevicesDB.DB[id]['entity_type'] == 'scr':
                ha_script(id,True)
@@ -286,7 +301,7 @@ def on_message_stat(mqttc, obj, msg):
    data=json.loads(msg.payload).get('devices',[])
    log("GetStatus: "  +  str(msg.payload))
    send_status(mqttc,DevicesDB.do_mqtt_json_states_list(data))
-#   log("Answer: "+DevicesDB.mqtt_json_states_list)
+   log("Answer: "+DevicesDB.mqtt_json_states_list)
 
 
 def on_errors(mqttc, obj, msg):
@@ -352,7 +367,7 @@ def upd_scr(id,s):
 def upd_ligt(id,s):
    attr=s['attributes'].get('friendly_name','')
    log('light: ' + s['entity_id'] + ' '+attr)
-   DevicesDB.update(s['entity_id'],{'entity_ha': True,'entity_type': 'scr','friendly_name':attr,'category': 'light'})
+   DevicesDB.update(s['entity_id'],{'entity_ha': True,'entity_type': 'light','friendly_name':attr,'category': 'light'})
 def upd_default(id,s):
    log('Неиспользуемый тип: ' + s['entity_id'])
 for s in res:
@@ -363,13 +378,6 @@ for s in res:
       'light': upd_ligt
    }
    dict.get(a, upd_default)(s['entity_id'],s)
-
-#******************* Configure Local client (HA Broker)
-
-#mqttHA = mqtt.Client("SberDevicesAgent local client")
-#mqttHA.on_connect = on_connect_local
-#mqttHA.username_pw_set(Options['ha-mqtt_login'], Options['ha-mqtt_password'])
-#mqttHA.connect(Options['ha-mqtt_broker'], Options['ha-mqtt_broker_port'], 60)
 
 #******************* Configure client (SberDevices Broker)
 #mqttc = mqtt.Client("HA client")
@@ -399,7 +407,6 @@ infot = mqttc.publish(sber_root_topic+'/up/config', DevicesDB.do_mqtt_json_devic
 
 #*********************************
 mqttc.loop_start()
-#mqttHA.loop_start()
 
 if Options.get('sber-http_api_endpoint',None) is None:
    options_change('sber-http_api_endpoint','')
