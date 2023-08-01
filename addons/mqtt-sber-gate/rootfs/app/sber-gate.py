@@ -275,27 +275,26 @@ def on_message_cmd(mqttc, obj, msg):
    data=json.loads(msg.payload)
 #Command: {'devices': {'Relay_03': {'states': [{'key': 'on_off', 'value': {'type': 'BOOL'}}]}}}
    log("Command: " + str(data))
-#   log('DevicesDB: '+str(DevicesDB.DB))
+   log('DevicesDB: '+str(DevicesDB.DB))
    for id,v in data['devices'].items():
       for k in v['states']:
          if k['key'] == 'on_off':
-#            infot = mqttHA.publish("sberdevices/"+id, str(val), qos=0)
             if DevicesDB.DB[id]['entity_type'] == 'sw':
                val=k['value'].get('bool_value',False)
                log('on_off set to '+str(val))
                DevicesDB.change_state(id,k['key'],val)
-               ha_light(id,val)
+               ha_switch(id,val)
             if DevicesDB.DB[id]['entity_type'] == 'light':
                val=k['value'].get('bool_value',False)
                log('on_off set to '+str(val))
                DevicesDB.change_state(id,k['key'],val)
-               ha_switch(id,val)
+               ha_light(id,val)
             if DevicesDB.DB[id]['entity_type'] == 'scr':
                ha_script(id,True)
          if k['value']['type'] == 'INTEGER':
             DevicesDB.change_state(id,k['key'],k['value'].get('integer_value',0))
    send_status(mqttc,DevicesDB.do_mqtt_json_states_list([]))
-#   log(DevicesDB.mqtt_json_states_list)
+   log(DevicesDB.mqtt_json_states_list)
 
 def on_message_stat(mqttc, obj, msg):
    data=json.loads(msg.payload).get('devices',[])
