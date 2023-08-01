@@ -407,7 +407,7 @@ hds = {'content-type': 'application/json'}
 if not os.path.exists('models.json'):
    log('Файл моделей отсутствует. Получаем...')
    SD_Models = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/models', headers=hds, auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password']))
-   with open('models.json', 'w+') as f:
+   with open('models.json', 'w') as f:
     json.dump(SD_Models.json(), f)
    #SD_Models = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/models', headers=hds,auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password'])).json()
    #log('json'+SD_Models)
@@ -416,7 +416,7 @@ if not os.path.exists('models.json'):
 if not os.path.exists('categories.json'):
    log('Файл категорий отсутствует. Получаем...')
    SD_Categories = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/categories', headers=hds,auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password']))
-    with open('categories.json', 'w+') as f:
+   with open('categories.json', 'w') as f:
     json.dump(SD_Categories.json(), f)
 
 #************** WebServer*********************************
