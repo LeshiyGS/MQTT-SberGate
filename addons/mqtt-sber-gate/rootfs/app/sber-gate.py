@@ -285,7 +285,7 @@ def on_message_cmd(mqttc, obj, msg):
                log('on_off set to '+str(val))
                DevicesDB.change_state(id,k['key'],val)
                ha_light(id,val)
-               if DevicesDB.DB[id]['entity_type'] == 'light':
+            if DevicesDB.DB[id]['entity_type'] == 'light':
                val=k['value'].get('bool_value',False)
                log('on_off set to '+str(val))
                DevicesDB.change_state(id,k['key'],val)
