@@ -13,7 +13,8 @@ import requests
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-#*******************************
+#-----------Работа с настройками аддона-------------
+#чтение настроек аддона
 def json_read(f):
    d=open(f,'r', encoding='utf-8').read()
    try:
@@ -22,12 +23,12 @@ def json_read(f):
       r={}
       log('!!! Неверная конфигурация в файле: '+f)
    return r
-
+#запись настроки аддона
 def json_write(f,d):
    out_file = open(f, "w")
    json.dump(d, out_file)
    out_file.close()
-
+#изменение настроек аддона
 def options_change(k,v):
    t=Options.get(k,None)
    if (t is None):
@@ -38,7 +39,7 @@ def options_change(k,v):
       json_write(fOptions,Options)
 
 
-#Отправка команды в НА в зависимости от модели устройства
+#--------------Отправка команды в НА в зависимости от модели устройства-------------
 #для реле
 def ha_switch(id,OnOff):
    log('Отправляем команду в HA для '+id+' ON: '+str(OnOff))
@@ -374,7 +375,6 @@ for s in res:
    dict.get(a, upd_default)(s['entity_id'],s)
 
 #******************* Configure client (SberDevices Broker)
-#mqttc = mqtt.Client("HA client")
 mqttc = mqtt.Client()
 mqttc.on_connect = on_connect
 mqttc.on_subscribe = on_subscribe
@@ -409,16 +409,13 @@ while (Options['sber-http_api_endpoint'] == ''):
    time.sleep(1)
 log('SberDevice http_api_endpoint: '+Options['sber-http_api_endpoint'])
 
-
+#-------------Создание файлов моделей и категорий----------
 hds = {'content-type': 'application/json'}
 if not os.path.exists('models.json'):
    log('Файл моделей отсутствует. Получаем...')
    SD_Models = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/models', headers=hds, auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password']))
    with open('models.json', 'w') as f:
     json.dump(SD_Models.json(), f)
-   #SD_Models = requests.get(Options['sber-http_api_endpoint']+'/v1/mqtt-gate/models', headers=hds,auth=(Options['sber-mqtt_login'], Options['sber-mqtt_password'])).json()
-   #log('json'+SD_Models)
-   #json_write('models.json',SD_Models)
 
 if not os.path.exists('categories.json'):
    log('Файл категорий отсутствует. Получаем...')
@@ -426,7 +423,7 @@ if not os.path.exists('categories.json'):
    with open('categories.json', 'w') as f:
     json.dump(SD_Categories.json(), f)
 
-#************** WebServer*********************************
+#-----------------WebServer--------------------
 def send_data(self,data,ct):
    self.send_response(200) 
    self.send_header("Content-type", ct)
