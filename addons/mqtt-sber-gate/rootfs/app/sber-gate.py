@@ -9,7 +9,7 @@ import random
 import json
 import paho.mqtt.client as mqtt
 import ssl
-#import requests
+import requests
 import urllib.request
 
 
