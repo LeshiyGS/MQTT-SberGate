@@ -69,7 +69,7 @@ def ha_script(id,OnOff):
    response=requests.post(url, json={"entity_id": id}, headers=hds)
 
 #--------------Проверка значения в НА и отправка а СБЕР----------------
-def ha_upd_switch():
+def ha_upd_switch(self):
    for k in DevicesDB.DB:
      hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
      url=Options['ha-api_url']+'/api/states/'+DevicesDB.DB[k]['name']
@@ -632,5 +632,5 @@ print("Server stopped.")
 
 while True:
    time.sleep(10)
-   ha_upd_switch()
+   ha_upd_switch(self)
 #   log('Agent HB')
