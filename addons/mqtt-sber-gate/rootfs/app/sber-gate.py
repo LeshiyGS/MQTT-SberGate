@@ -75,11 +75,11 @@ def ha_upd_switch():
    while True:
      sleep(10)
      for k in DevicesDB.DB:
-       hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
-       url=Options['ha-api_url']+'/api/states/'+k
-       res = requests.get(url, headers=hds)
-       log(res.json())
-       log(k+':'+DevicesDB.DB[k]['name'])
+       #hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
+       #url=Options['ha-api_url']+'/api/states/'+k
+       #res = requests.get(url, headers=hds)
+       #log(res.json())
+       log(k+':'+DevicesDB.DB[k])
      
 
 
