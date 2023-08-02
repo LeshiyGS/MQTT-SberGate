@@ -615,7 +615,7 @@ static_request={
    '/static/js/main.a9292504.chunk.js': '../app/ui/static/js/main.a9292504.chunk.js'
 }
 
-ha_update = Thread(target=ha_upd_switch, args=(self))
+ha_update = Thread(target=ha_upd_switch)
 ha_update.start()
 ha_update.join()
 
