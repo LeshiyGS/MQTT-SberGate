@@ -79,7 +79,8 @@ def ha_upd_switch():
             hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
             url=Options['ha-api_url']+'/api/states/'+k
             res = requests.get(url, headers=hds)
-            log(res.json())
+            temp = res.json()
+            log(temp['sate'])
       sleep(10)
       
 
