@@ -626,7 +626,7 @@ static_request={
 #ha_update.join()
 
 webServer = HTTPServer((hostName, serverPort), MyServer)
-print("Server started http://%s:%s" % (hostName, serverPort))
+log("Server started http://%s:%s" % (hostName, serverPort))
 try:
    webServer.serve_forever()
    #ha_update = Thread(target=ha_upd_switch)
