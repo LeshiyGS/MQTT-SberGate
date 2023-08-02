@@ -73,15 +73,15 @@ def ha_script(id,OnOff):
 #--------------Проверка значения в НА и отправка а СБЕР----------------
 def ha_upd_switch():
    while True:
-      sleep(10)
       for k in DevicesDB.DB:
          if DevicesDB.DB[k]['enabled'] == True:
             log(DevicesDB.DB[k]['States']['on_off'])
-            hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
-            url=Options['ha-api_url']+'/api/states/'+k
-            res = requests.get(url, headers=hds)
-            temp = res.json()
-            log(temp)
+            #hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
+            #url=Options['ha-api_url']+'/api/states/'+k
+            #res = requests.get(url, headers=hds)
+            #temp = res.json()
+            #log(temp)
+      sleep(5)
       
 
 
