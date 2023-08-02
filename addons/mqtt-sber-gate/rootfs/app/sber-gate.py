@@ -621,11 +621,12 @@ static_request={
    '/static/js/main.a9292504.chunk.js': '../app/ui/static/js/main.a9292504.chunk.js'
 }
 
-webServer = HTTPServer((hostName, serverPort), MyServer)
-print("Server started http://%s:%s" % (hostName, serverPort))
 ha_update = Thread(target=ha_upd_switch)
 ha_update.start()
 ha_update.join()
+
+webServer = HTTPServer((hostName, serverPort), MyServer)
+print("Server started http://%s:%s" % (hostName, serverPort))
 try:
    webServer.serve_forever()
 
