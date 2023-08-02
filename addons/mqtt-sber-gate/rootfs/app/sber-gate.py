@@ -10,8 +10,10 @@ import json
 import paho.mqtt.client as mqtt
 import ssl
 import requests
+import asyncio
 from threading import Thread
 from time import sleep
+
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -71,7 +73,7 @@ def ha_script(id,OnOff):
    response=requests.post(url, json={"entity_id": id}, headers=hds)
 
 #--------------Проверка значения в НА и отправка а СБЕР----------------
-def ha_upd_switch():
+async def ha_upd_switch():
    while True:
       for k in DevicesDB.DB:
          if DevicesDB.DB[k]['enabled'] == True:
@@ -81,7 +83,7 @@ def ha_upd_switch():
             #res = requests.get(url, headers=hds)
             #temp = res.json()
             #log(temp)
-      sleep(5)
+      await asyncio.sleep(5)
       
 
 
@@ -624,6 +626,8 @@ static_request={
 #ha_update = Thread(target=ha_upd_switch)
 #ha_update.start()
 #ha_update.join()
+
+asyncio.run(ha_upd_switch())
 
 webServer = HTTPServer((hostName, serverPort), MyServer)
 log("Server started http://%s:%s" % (hostName, serverPort))
