@@ -68,6 +68,16 @@ def ha_script(id,OnOff):
    hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
    response=requests.post(url, json={"entity_id": id}, headers=hds)
 
+#--------------Проверка значения в НА и отправка а СБЕР----------------
+def ha_upd_switch():
+   for k in DevicesDB.DB:
+     hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
+     url=Options['ha-api_url']+'/api/states/'+DevicesDB.DB[k]['name']
+     res = requests.get(url, headers=hds).json()
+     log(res)
+     log('Проверка состояния '+ DevicesDB.DB[k]['name']+ DevicesDB.DB[k]['States'])
+
+
 #*******************************
 class CDevicesDB(object):
    """docstring"""
@@ -622,4 +632,5 @@ print("Server stopped.")
 
 while True:
    time.sleep(10)
+   ha_upd_switch()
 #   log('Agent HB')
