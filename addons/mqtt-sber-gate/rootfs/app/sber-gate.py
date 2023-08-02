@@ -621,9 +621,9 @@ static_request={
    '/static/js/main.a9292504.chunk.js': '../app/ui/static/js/main.a9292504.chunk.js'
 }
 
-ha_update = Thread(target=ha_upd_switch)
-ha_update.start()
-ha_update.join()
+#ha_update = Thread(target=ha_upd_switch)
+#ha_update.start()
+#ha_update.join()
 
 webServer = HTTPServer((hostName, serverPort), MyServer)
 print("Server started http://%s:%s" % (hostName, serverPort))
@@ -640,4 +640,4 @@ print("Server stopped.")
 
 while True:
    time.sleep(10)
-   log('Agent HB')
+   #log('Agent HB')
