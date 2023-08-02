@@ -77,7 +77,7 @@ def ha_upd_switch():
        hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
        url=Options['ha-api_url']+'/api/states/'+DevicesDB.DB[k]['name']
        res = requests.get(url, headers=hds)
-       log(res.json())
+       log(res)
        log('Проверка состояния '+ DevicesDB.DB[k]['name'])
      sleep(100)
 
