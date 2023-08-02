@@ -195,7 +195,7 @@ class CDevicesDB(object):
                self.DB[id]['States']={}
                self.DB[id]['States']['online']=True
             DStat['devices'][id]={}
-            DStat['devices'][id]['States']=self.DeviceStates_mqttSber(id)
+            DStat['devices'][id]['states']=self.DeviceStates_mqttSber(id)
       self.mqtt_json_states_list=json.dumps(DStat)
       return self.mqtt_json_states_list
 
