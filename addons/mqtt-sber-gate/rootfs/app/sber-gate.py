@@ -360,18 +360,19 @@ res = requests.get(url, headers=hds).json()
 
 def upd_sw(id,s):
    attr=s['attributes'].get('friendly_name','')
-   log('switch: ' + s['entity_id'] + ' '+attr)
+   #log('switch: ' + s['entity_id'] + ' '+attr)
    DevicesDB.update(s['entity_id'],{'entity_ha': True,'entity_type': 'sw','friendly_name':attr,'category': 'relay'})
 def upd_scr(id,s):
    attr=s['attributes'].get('friendly_name','')
-   log('script: ' + s['entity_id'] + ' '+attr)
+   #log('script: ' + s['entity_id'] + ' '+attr)
    DevicesDB.update(s['entity_id'],{'entity_ha': True,'entity_type': 'scr','friendly_name':attr,'category': 'relay'})
 def upd_light(id,s):
    attr=s['attributes'].get('friendly_name','')
-   log('light: ' + s['entity_id'] + ' '+attr)
+   #log('light: ' + s['entity_id'] + ' '+attr)
    DevicesDB.update(s['entity_id'],{'entity_ha': True,'entity_type': 'light','friendly_name':attr,'category': 'light'})
 def upd_default(id,s):
-   log('Неиспользуемый тип: ' + s['entity_id'])
+   attr=s['entity_id']
+   #log('Неиспользуемый тип: ' + s['entity_id'])
 
 for s in res:
    a,b=s['entity_id'].split('.',1)
@@ -620,12 +621,11 @@ static_request={
    '/static/js/main.a9292504.chunk.js': '../app/ui/static/js/main.a9292504.chunk.js'
 }
 
+webServer = HTTPServer((hostName, serverPort), MyServer)
+print("Server started http://%s:%s" % (hostName, serverPort))
 ha_update = Thread(target=ha_upd_switch)
 ha_update.start()
 ha_update.join()
-
-webServer = HTTPServer((hostName, serverPort), MyServer)
-print("Server started http://%s:%s" % (hostName, serverPort))
 try:
    webServer.serve_forever()
 
