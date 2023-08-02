@@ -74,11 +74,11 @@ def ha_script(id,OnOff):
 def ha_upd_switch():
    while True:
      for k in DevicesDB.DB:
-       hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
-       url=Options['ha-api_url']+'/api/states/'+DevicesDB.DB[k]['entity_ha']
-       res = requests.get(url, headers=hds)
-       log(res)
-       log('Проверка состояния '+ DevicesDB.DB[k]['entity_ha'])
+       #hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
+       #url=Options['ha-api_url']+'/api/states/'+DevicesDB.DB[k]['entity_ha']
+       #res = requests.get(url, headers=hds)
+       #log(res)
+       log(DB[k])
      sleep(100)
 
 
