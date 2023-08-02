@@ -195,7 +195,7 @@ class CDevicesDB(object):
                self.DB[id]['States']={}
                self.DB[id]['States']['online']=True
             DStat['devices'][id]={}
-            DStat['devices'][id]['states']=self.DeviceStates_mqttSber(id)
+            DStat['devices'][id]['States']=self.DeviceStates_mqttSber(id)
       self.mqtt_json_states_list=json.dumps(DStat)
       return self.mqtt_json_states_list
 
@@ -353,7 +353,7 @@ def upd_scr(id,s):
    attr=s['attributes'].get('friendly_name','')
    log('script: ' + s['entity_id'] + ' '+attr)
    DevicesDB.update(s['entity_id'],{'entity_ha': True,'entity_type': 'scr','friendly_name':attr,'category': 'relay'})
-def upd_ligt(id,s):
+def upd_light(id,s):
    attr=s['attributes'].get('friendly_name','')
    log('light: ' + s['entity_id'] + ' '+attr)
    DevicesDB.update(s['entity_id'],{'entity_ha': True,'entity_type': 'light','friendly_name':attr,'category': 'light'})
@@ -364,7 +364,7 @@ for s in res:
    dict={
       'switch': upd_sw,
       'script': upd_scr,
-      'light': upd_ligt
+      'light': upd_light
    }
    dict.get(a, upd_default)(s['entity_id'],s)
 
