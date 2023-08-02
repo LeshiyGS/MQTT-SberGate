@@ -77,7 +77,7 @@ def ha_upd_switch():
          if DevicesDB.DB[k]['enabled'] == True:
             log(DevicesDB.DB[k]['States']['on_off'])
             hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
-            url='https://10.10.10.17:8123/api/states/'+k
+            url=Options['ha-api_url']+'/api/states/'+k
             res = requests.get(url, headers=hds)
             temp = res.json()
             #log(temp['state'])
