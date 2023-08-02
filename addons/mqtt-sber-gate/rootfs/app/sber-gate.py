@@ -627,7 +627,7 @@ static_request={
 #ha_update.start()
 #ha_update.join()
 
-asyncio.run(ha_upd_switch())
+#asyncio.run(ha_upd_switch())
 
 webServer = HTTPServer((hostName, serverPort), MyServer)
 log("Server started http://%s:%s" % (hostName, serverPort))
