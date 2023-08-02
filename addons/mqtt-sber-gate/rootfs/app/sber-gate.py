@@ -633,5 +633,4 @@ print("Server stopped.")
 
 while True:
    time.sleep(10)
-   ha_upd_switch(self)
-#   log('Agent HB')
+   log('Agent HB')
