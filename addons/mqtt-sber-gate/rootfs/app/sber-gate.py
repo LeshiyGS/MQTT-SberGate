@@ -116,6 +116,7 @@ class CDevicesDB(object):
       log('Delete Device: '+id+'!')
 
    def change_state(self,id,key,value):
+      log('changes!!!')
       if self.DB.get(id,None) is None:
          log('Device id='+str(id)+' not found')
          return
@@ -281,7 +282,6 @@ def on_message_cmd(mqttc, obj, msg):
    data=json.loads(msg.payload)
 #Command: {'devices': {'Relay_03': {'states': [{'key': 'on_off', 'value': {'type': 'BOOL'}}]}}}
    log("Command: " + str(data))
-   #log('DevicesDB: '+str(DevicesDB.DB))
    for id,v in data['devices'].items():
       for k in v['states']:
          if k['key'] == 'on_off':
