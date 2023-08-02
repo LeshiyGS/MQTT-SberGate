@@ -74,6 +74,7 @@ def ha_script(id,OnOff):
 def ha_upd_switch():
    while True:
       sleep(10)
+      log(DevicesDB.DB[k]['enabled'])
       for k in DevicesDB.DB:
         if DevicesDB.DB[k]['enabled'] == True:
           log(k)
