@@ -80,7 +80,7 @@ def ha_upd_switch():
        #res = requests.get(url, headers=hds)
        #log(res.json())
        log(k)
-       log(DevicesDB.DB[k])
+       log(DevicesDB.DB[k]['enabled'])
      
 
 
