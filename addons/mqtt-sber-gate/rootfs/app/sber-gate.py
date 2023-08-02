@@ -71,7 +71,7 @@ def ha_script(id,OnOff):
    response=requests.post(url, json={"entity_id": id}, headers=hds)
 
 #--------------Проверка значения в НА и отправка а СБЕР----------------
-def ha_upd_switch(self):
+def ha_upd_switch():
    for k in DevicesDB.DB:
      hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
      url=Options['ha-api_url']+'/api/states/'+DevicesDB.DB[k]['name']
