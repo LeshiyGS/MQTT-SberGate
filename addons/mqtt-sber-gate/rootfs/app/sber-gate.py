@@ -78,8 +78,8 @@ def ha_upd_switch():
        #url=Options['ha-api_url']+'/api/states/'+DevicesDB.DB[k]['entity_ha']
        #res = requests.get(url, headers=hds)
        #log(res)
-       log(DevicesDB.DB[k])
-     sleep(100)
+       log(DevicesDB.DB[k]['name'])
+     sleep(10000)
 
 
 #*******************************
