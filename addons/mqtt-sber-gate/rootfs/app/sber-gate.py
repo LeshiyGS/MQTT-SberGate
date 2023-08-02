@@ -10,6 +10,8 @@ import json
 import paho.mqtt.client as mqtt
 import ssl
 import requests
+from threading import Thread
+from time import sleep
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -76,6 +78,7 @@ def ha_upd_switch(self):
      res = requests.get(url, headers=hds).json()
      log(res)
      log('Проверка состояния '+ DevicesDB.DB[k]['name']+ DevicesDB.DB[k]['States'])
+     sleep(100)
 
 
 #*******************************
@@ -308,7 +311,6 @@ def on_message_stat(mqttc, obj, msg):
    send_status(mqttc,DevicesDB.do_mqtt_json_states_list(data))
    log("Answer: "+DevicesDB.mqtt_json_states_list)
 
-
 def on_errors(mqttc, obj, msg):
    log("Sber MQTT Errors: " + msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
 
@@ -345,14 +347,11 @@ DevicesDB=CDevicesDB(fDevicesDB)
 AgentStatus={"online": True, "error": "",  "credentials": {'username':Options['sber-mqtt_login'],"password": "***",'broker': Options['sber-mqtt_broker']}}
 
 log(Options['ha-api_url'])
-#log(Options['ha-api_token'])
-
 
 #url = "http://localhost:8123/ENDPOINT"
 hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
 url=Options['ha-api_url']+'/api/states'
 res = requests.get(url, headers=hds).json()
-#log(res)
 
 
 def upd_sw(id,s):
@@ -378,7 +377,7 @@ for s in res:
    }
    dict.get(a, upd_default)(s['entity_id'],s)
 
-#******************* Configure client (SberDevices Broker)
+#--------------Configure client (SberDevices Broker)----------------
 mqttc = mqtt.Client()
 mqttc.on_connect = on_connect
 mqttc.on_subscribe = on_subscribe
@@ -403,7 +402,7 @@ mqttc.connect(Options['sber-mqtt_broker'], Options['sber-mqtt_broker_port'], 60)
 
 infot = mqttc.publish(sber_root_topic+'/up/config', DevicesDB.do_mqtt_json_devices_list(), qos=0)
 
-#*********************************
+#--------------Start client (SberDevices Broker)----------------
 mqttc.loop_start()
 
 if Options.get('sber-http_api_endpoint',None) is None:
@@ -483,7 +482,6 @@ def api2_devices_post(self,d):
    infot = mqttc.publish(sber_root_topic+'/up/config', DevicesDB.do_mqtt_json_devices_list(), qos=0)
    DevicesDB.save_DB()
 
-
 def command_default(d):
    log('Получили неизвестную команду'+str(d))
 
@@ -508,12 +506,15 @@ def api_status(self):
 def api_objects(self):
    d='{"objects": [{"id": "__false","description": "Always false fake object"},{"id": "__true","description": "Always true fake object"}]}'
    send_data(self,d,"application/json")
+
 def api_transformations(self):
    d='{"transformations": [{"name": "integer_scale","help": "Args format: %d,%d->%d,%d"},{"name": "float_scale","help": "Args format: %d,%d->%d,%d"},{"name": "boolean_invert","help": "Inverts boolean value"},{"name": "multiplication","help": "Args format: %f"},{"name": "mapping","help": "Args example (last is fallback): BOOL->INTEGER|false->0|true->100"}]}'
    send_data(self,d,"application/json")
+
 def api_categories(self):
    d='{"categories": ["light","socket","relay","led_strip","hub","ipc","sensor_pir","sensor_door","sensor_temp","scenario_button","hvac_ac","hvac_fan","hvac_humidifier","hvac_air_purifier","hvac_heater","hvac_radiator","hvac_boiler","hvac_underfloor_heating","window_blind","curtain","gate","kettle","sensor_water_leak","valve"]}'
    send_data(self,d,"application/json")
+
 def api_categories_relay_features(self):
    d='{"features": [{"name": "online","required": true,"type": "BOOL"},{"name": "voltage","type": "INTEGER","allowed_integer_values": {"max": "500"}},{"name": "on_off","required": true,"type": "BOOL"    },    {      "name": "current",      "type": "INTEGER",      "allowed_integer_values": {        "max": "3000"      }    },    {      "name": "power",      "type": "INTEGER",      "allowed_integer_values": {        "max": "5000"      }    }  ]}'
    send_data(self,d,"application/json")
@@ -589,9 +590,6 @@ class MyServer(BaseHTTPRequestHandler):
       dict.get(self.path, api_default_post )(self,d)
 
 
-
-
-
 ext_mime_types = {
    ".html" : "text/html",
    ".js" : "text/javascript",
@@ -621,6 +619,9 @@ webServer = HTTPServer((hostName, serverPort), MyServer)
 print("Server started http://%s:%s" % (hostName, serverPort))
 try:
    webServer.serve_forever()
+   ha_update = Thread(target=ha_upd_switch, args=(self))
+   ha_update.start()
+   ha_update.join()
 
 except KeyboardInterrupt:
    pass
