@@ -72,12 +72,13 @@ def ha_script(id,OnOff):
 
 #--------------Проверка значения в НА и отправка а СБЕР----------------
 def ha_upd_switch():
-   for k in DevicesDB.DB:
-     hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
-     url=Options['ha-api_url']+'/api/states/'+DevicesDB.DB[k]['name']
-     res = requests.get(url, headers=hds).json()
-     log(res)
-     log('Проверка состояния '+ DevicesDB.DB[k]['name'])
+   while True:
+     for k in DevicesDB.DB:
+       hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
+       url=Options['ha-api_url']+'/api/states/'+DevicesDB.DB[k]['name']
+       res = requests.get(url, headers=hds).json()
+       log(res)
+       log('Проверка состояния '+ DevicesDB.DB[k]['name'])
      sleep(100)
 
 
