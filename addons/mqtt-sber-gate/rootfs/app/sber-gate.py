@@ -367,8 +367,8 @@ def upd_light(id,s):
    attr=s['attributes'].get('friendly_name','')
    log('light: ' + s['entity_id'] + ' '+attr)
    DevicesDB.update(s['entity_id'],{'entity_ha': True,'entity_type': 'light','friendly_name':attr,'category': 'light'})
-def upd_default(id,s):
-   log('')
+#def upd_default(id,s):
+   #log('')
    #log('Неиспользуемый тип: ' + s['entity_id'])
 for s in res:
    a,b=s['entity_id'].split('.',1)
