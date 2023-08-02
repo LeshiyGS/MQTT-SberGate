@@ -75,14 +75,14 @@ def ha_upd_switch():
    while True:
       sleep(10)
       for k in DevicesDB.DB:
-        log(DevicesDB.DB[k]['enabled'])
+        #log(DevicesDB.DB[k]['enabled'])
         if DevicesDB.DB[k]['enabled'] == True:
           #hds = {'Authorization': 'Bearer '+Options['ha-api_token'], 'content-type': 'application/json'}
           #url=Options['ha-api_url']+'/api/states/'+k
           #res = requests.get(url, headers=hds)
           #log(res.json())
           log(k)
-          log(DevicesDB.DB[k]['enabled'])
+          #log(DevicesDB.DB[k]['enabled'])
      
 
 
