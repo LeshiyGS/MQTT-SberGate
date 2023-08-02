@@ -80,7 +80,7 @@ def ha_upd_switch():
             url=Options['ha-api_url']+'/api/states/'+k
             res = requests.get(url, headers=hds)
             temp = res.json()
-            log(temp['state'])
+            #log(temp['state'])
       sleep(10)
       
 
