@@ -629,9 +629,9 @@ webServer = HTTPServer((hostName, serverPort), MyServer)
 print("Server started http://%s:%s" % (hostName, serverPort))
 try:
    webServer.serve_forever()
-   ha_update = Thread(target=ha_upd_switch)
-   ha_update.start()
-   ha_update.join()
+   #ha_update = Thread(target=ha_upd_switch)
+   #ha_update.start()
+   #ha_update.join()
 
 except KeyboardInterrupt:
    pass
